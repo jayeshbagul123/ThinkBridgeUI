@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CodePulse": {
+    "Invoie_UI": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -22,11 +22,7 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
@@ -48,13 +44,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
-                }
-              ]
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -63,10 +53,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "CodePulse:build:production"
+              "buildTarget": "Invoie_UI:build:production"
             },
             "development": {
-              "buildTarget": "CodePulse:build:development"
+              "buildTarget": "Invoie_UI:build:development"
             }
           },
           "defaultConfiguration": "development"

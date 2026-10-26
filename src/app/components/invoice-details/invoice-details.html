@@ -1,0 +1,59 @@
+<main class="page">
+  <section class="invoice-card" aria-labelledby="page-title">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Invoice overview</p>
+        <h1 id="page-title">Invoice details</h1>
+      </div>
+      @if (invoice(); as details) {
+        <span class="invoice-number">Invoice #{{ details.invoiceID }}</span>
+      }
+    </header>
+
+    @if (loading()) {
+      <p class="status-message" role="status">Loading invoice details…</p>
+    } @else if (errorMessage(); as message) {
+      <p class="status-message error" role="alert">{{ message }}</p>
+    } @else if (invoice(); as details) {
+      <div class="customer">
+        <span class="field-label">Customer</span>
+        <span class="customer-name">{{ details.customerName }}</span>
+      </div>
+
+      <div class="items-heading">
+        <h2>Items</h2>
+        <span>{{ details.listItems.length }} {{ details.listItems.length === 1 ? 'item' : 'items' }}</span>
+      </div>
+
+      @if (details.listItems.length > 0) {
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Item ID</th>
+                <th scope="col" class="amount">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of details.listItems; track item.itemID) {
+                <tr>
+                  <td>{{ item.name }}</td>
+                  <td class="muted">{{ item.itemID }}</td>
+                  <td class="amount">{{ item.price | currency }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="empty-state">There are no items on this invoice.</p>
+      }
+
+      <footer class="invoice-total">
+        <span>Total</span>
+        <strong>{{ total | currency }}</strong>
+      </footer>
+    }
+  </section>
+</main>

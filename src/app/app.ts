@@ -1,13 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Navbar } from './core/components/navbar/navbar';
+import { Component } from '@angular/core';
+import { InvoiceDetails } from './components/invoice-details/invoice-details';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar],
+  imports: [InvoiceDetails],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('CodePulse');
-}
+export class App {}
