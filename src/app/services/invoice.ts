@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { httpResource } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 export interface InvoiceItem {
   itemID: number;
@@ -19,10 +18,9 @@ export interface InvoiceRecord {
   providedIn: 'root',
 })
 export class Invoice {
-  private readonly http = inject(HttpClient);
   private readonly apiUrl = 'https://localhost:7196/api/Invoice';
 
-  getInvoice(invoiceId: number): Observable<InvoiceRecord> {
-    return this.http.get<InvoiceRecord>(`${this.apiUrl}/${invoiceId}`);
+  getInvoice(invoiceId: number) {
+    return httpResource<InvoiceRecord | null>(() => `${this.apiUrl}/${invoiceId}`);
   }
 }

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationRef, provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
@@ -25,13 +25,15 @@ describe('Invoice', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should request the invoice by id', () => {
-    service.getInvoice(1).subscribe((invoice) => {
-      expect(invoice.invoiceID).toBe(1);
-    });
+  it('should request the invoice by id', async () => {
+    const invoiceResource = TestBed.runInInjectionContext(() => service.getInvoice(1));
+    TestBed.flushEffects();
 
     const request = httpTestingController.expectOne('https://localhost:7196/api/Invoice/1');
     expect(request.request.method).toBe('GET');
-    request.flush({ invoiceID: 1, customerName: 'John Doe', listItems: [] });
+    request.flush(null);
+    await TestBed.inject(ApplicationRef).whenStable();
+
+    expect(invoiceResource.value()).toBeNull();
   });
 });

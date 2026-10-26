@@ -1,59 +1,55 @@
 <main class="page">
-  <section class="invoice-card" aria-labelledby="page-title">
-    <header class="page-header">
-      <div>
-        <p class="eyebrow">Invoice overview</p>
-        <h1 id="page-title">Invoice details</h1>
-      </div>
-      @if (invoice(); as details) {
-        <span class="invoice-number">Invoice #{{ details.invoiceID }}</span>
-      }
-    </header>
+  <section class="invoice" aria-labelledby="page-title">
+    <h1 id="page-title">Invoice details</h1>
 
-    @if (loading()) {
+    @if (isLoading()) {
       <p class="status-message" role="status">Loading invoice details…</p>
-    } @else if (errorMessage(); as message) {
-      <p class="status-message error" role="alert">{{ message }}</p>
-    } @else if (invoice(); as details) {
-      <div class="customer">
-        <span class="field-label">Customer</span>
-        <span class="customer-name">{{ details.customerName }}</span>
-      </div>
+    } @else if (isError()) {
+      <p class="status-message error" role="alert">Failed to load invoice details.</p>
+    } @else if (value(); as details) {
+      <table class="invoice-info">
+        <tbody>
+          <tr>
+            <th scope="row">Invoice ID</th>
+            <td>{{ details.invoiceID }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Customer</th>
+            <td>{{ details.customerName }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <div class="items-heading">
-        <h2>Items</h2>
-        <span>{{ details.listItems.length }} {{ details.listItems.length === 1 ? 'item' : 'items' }}</span>
-      </div>
+      <h2>Items</h2>
 
       @if (details.listItems.length > 0) {
-        <div class="table-wrap">
-          <table>
-            <thead>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Item ID</th>
+              <th scope="col">Item</th>
+              <th scope="col" class="amount">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of details.listItems; track item.itemID) {
               <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Item ID</th>
-                <th scope="col" class="amount">Price</th>
+                <td>{{ item.itemID }}</td>
+                <td>{{ item.name }}</td>
+                <td class="amount">{{ item.price | number: '1.2-2' }}</td>
               </tr>
-            </thead>
-            <tbody>
-              @for (item of details.listItems; track item.itemID) {
-                <tr>
-                  <td>{{ item.name }}</td>
-                  <td class="muted">{{ item.itemID }}</td>
-                  <td class="amount">{{ item.price | currency }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
+            }
+            <tr class="total">
+              <th scope="row" colspan="2">Total</th>
+              <td class="amount">{{ total | number: '1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
       } @else {
         <p class="empty-state">There are no items on this invoice.</p>
       }
-
-      <footer class="invoice-total">
-        <span>Total</span>
-        <strong>{{ total | currency }}</strong>
-      </footer>
+    } @else {
+      <p class="empty-state">Invoice data not available.</p>
     }
   </section>
 </main>

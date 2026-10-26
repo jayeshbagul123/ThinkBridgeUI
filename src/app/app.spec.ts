@@ -27,7 +27,7 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render invoice details', () => {
+  it('should render invoice details', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     httpTestingController.expectOne('https://localhost:7196/api/Invoice/1').flush({
@@ -35,6 +35,7 @@ describe('App', () => {
       customerName: 'John Doe',
       listItems: [],
     });
+    await fixture.whenStable();
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
