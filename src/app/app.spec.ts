@@ -27,19 +27,14 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render invoice details', async () => {
+  it('should render the invoice lookup form without requesting an invoice', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    httpTestingController.expectOne('https://localhost:7196/api/Invoice/1').flush({
-      invoiceID: 1,
-      customerName: 'John Doe',
-      listItems: [],
-    });
-    await fixture.whenStable();
-    fixture.detectChanges();
+    httpTestingController.expectNone('https://localhost:7196/api/Invoice/1');
 
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Invoice details');
-    expect(compiled.textContent).toContain('John Doe');
+    expect(compiled.querySelector('#invoice-id')).not.toBeNull();
+    expect(compiled.textContent).toContain('Enter an invoice ID to view its details.');
   });
 });

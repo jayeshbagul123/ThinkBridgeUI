@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ApplicationRef, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationRef, provideZonelessChangeDetection, signal } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
@@ -26,7 +26,8 @@ describe('Invoice', () => {
   });
 
   it('should request the invoice by id', async () => {
-    const invoiceResource = TestBed.runInInjectionContext(() => service.getInvoice(1));
+    const invoiceId = signal(1);
+    const invoiceResource = TestBed.runInInjectionContext(() => service.getInvoice(invoiceId));
     TestBed.flushEffects();
 
     const request = httpTestingController.expectOne('https://localhost:7196/api/Invoice/1');

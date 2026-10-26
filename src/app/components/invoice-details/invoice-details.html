@@ -2,7 +2,23 @@
   <section class="invoice" aria-labelledby="page-title">
     <h1 id="page-title">Invoice details</h1>
 
-    @if (isLoading()) {
+    <form class="invoice-search" (ngSubmit)="loadInvoice()">
+      <label for="invoice-id">Invoice ID</label>
+      <input
+        id="invoice-id"
+        name="invoiceId"
+        type="number"
+        min="1"
+        step="1"
+        required
+        [(ngModel)]="invoiceIdInput"
+      />
+      <button type="submit">Find invoice</button>
+    </form>
+
+    @if (requestedInvoiceId() === undefined) {
+      <p class="empty-state">Enter an invoice ID to view its details.</p>
+    } @else if (isLoading()) {
       <p class="status-message" role="status">Loading invoice details…</p>
     } @else if (isError()) {
       <p class="status-message error" role="alert">Failed to load invoice details.</p>

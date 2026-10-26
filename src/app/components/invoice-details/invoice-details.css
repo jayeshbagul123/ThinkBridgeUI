@@ -20,6 +20,22 @@ h2 {
   font-size: 18px;
 }
 
+.invoice-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.invoice-search input {
+  width: 120px;
+  padding: 6px;
+}
+
+.invoice-search button {
+  padding: 7px 12px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -61,6 +77,10 @@ thead,
 @media (max-width: 520px) {
   .page {
     margin: 20px auto;
+  }
+
+  .invoice-search {
+    flex-wrap: wrap;
   }
 
   th,

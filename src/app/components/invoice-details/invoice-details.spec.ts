@@ -25,8 +25,19 @@ describe('InvoiceDetails', () => {
 
   afterEach(() => http.verify());
 
-  it('shows a message when the API has no invoice data', async () => {
-    http.expectOne('https://localhost:7196/api/Invoice/1').flush(null);
+  it('loads the invoice ID entered in the form', async () => {
+    expect(http.match(() => true).length).toBe(0);
+
+    const input = fixture.nativeElement.querySelector('#invoice-id') as HTMLInputElement;
+    input.value = '42';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    const form = fixture.nativeElement.querySelector('form') as HTMLFormElement;
+    form.dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    http.expectOne('https://localhost:7196/api/Invoice/42').flush(null);
     await fixture.whenStable();
     fixture.detectChanges();
 

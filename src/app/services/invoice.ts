@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 
 export interface InvoiceItem {
   itemID: number;
@@ -20,7 +20,10 @@ export interface InvoiceRecord {
 export class Invoice {
   private readonly apiUrl = 'https://localhost:7196/api/Invoice';
 
-  getInvoice(invoiceId: number) {
-    return httpResource<InvoiceRecord | null>(() => `${this.apiUrl}/${invoiceId}`);
+  getInvoice(invoiceId: Signal<number | undefined>) {
+    return httpResource<InvoiceRecord | null>(() => {
+      const id = invoiceId();
+      return id === undefined ? undefined : `${this.apiUrl}/${id}`;
+    });
   }
 }
