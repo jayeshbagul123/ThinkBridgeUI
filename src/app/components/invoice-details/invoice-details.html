@@ -1,50 +1,51 @@
-<main class="page">
+<main class="container mt-4">
   <section class="invoice" aria-labelledby="page-title">
-    <h1 id="page-title">Invoice details</h1>
+    <h1 id="page-title" class="mt-3 mb-4">Invoice details</h1>
 
-    <form class="invoice-search" (ngSubmit)="loadInvoice()">
-      <label for="invoice-id">Invoice ID</label>
+    <form class="d-flex align-items-center gap-2 mt-3 mb-3 flex-wrap" (ngSubmit)="loadInvoice()">
+      <label for="invoice-id" class="form-label mb-0">Invoice ID</label>
       <input
         id="invoice-id"
         name="invoiceId"
         type="number"
+        class="form-control w-auto"
         min="1"
         step="1"
         required
         [(ngModel)]="invoiceIdInput"
       />
-      <button type="submit">Find invoice</button>
+      <button type="submit" class="btn btn-primary">Find invoice</button>
     </form>
 
     @if (requestedInvoiceId() === undefined) {
-      <p class="empty-state">Enter an invoice ID to view its details.</p>
+      <p class="mt-3">Enter an invoice ID to view its details.</p>
     } @else if (isLoading()) {
-      <p class="status-message" role="status">Loading invoice details…</p>
+      <p class="mt-3" role="status">Loading invoice details…</p>
     } @else if (isError()) {
-      <p class="status-message error" role="alert">Failed to load invoice details.</p>
+      <p class="mt-3 text-danger" role="alert">Failed to load invoice details.</p>
     } @else if (value(); as details) {
-      <table class="invoice-info">
+      <table class="table table-bordered mt-3">
         <tbody>
           <tr>
-            <th scope="row">Invoice ID</th>
+            <th>Invoice ID</th>
             <td>{{ details.invoiceID }}</td>
           </tr>
           <tr>
-            <th scope="row">Customer</th>
+            <th>Customer</th>
             <td>{{ details.customerName }}</td>
           </tr>
         </tbody>
       </table>
 
-      <h2>Items</h2>
+      <h2 class="mt-3">Items</h2>
 
       @if (details.listItems.length > 0) {
-        <table>
+        <table class="table table-bordered mt-3">
           <thead>
             <tr>
               <th scope="col">Item ID</th>
               <th scope="col">Item</th>
-              <th scope="col" class="amount">Price</th>
+              <th scope="col">Price</th>
             </tr>
           </thead>
           <tbody>
@@ -52,20 +53,20 @@
               <tr>
                 <td>{{ item.itemID }}</td>
                 <td>{{ item.name }}</td>
-                <td class="amount">{{ item.price | number: '1.2-2' }}</td>
+                <td>{{ item.price | number: '1.2-2' }}</td>
               </tr>
             }
-            <tr class="total">
+            <tr class="table-light">
               <th scope="row" colspan="2">Total</th>
-              <td class="amount">{{ total | number: '1.2-2' }}</td>
+              <td>{{ total | number: '1.2-2' }}</td>
             </tr>
           </tbody>
         </table>
       } @else {
-        <p class="empty-state">There are no items on this invoice.</p>
+        <p class="mt-3">There are no items on this invoice.</p>
       }
     } @else {
-      <p class="empty-state">Invoice data not available.</p>
+      <p class="mt-3">Invoice data not available.</p>
     }
   </section>
 </main>

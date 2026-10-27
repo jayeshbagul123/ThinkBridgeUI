@@ -8,7 +8,6 @@ import { Invoice } from '../../services/invoice';
   selector: 'app-invoice-details',
   imports: [DecimalPipe, FormsModule],
   templateUrl: './invoice-details.html',
-  styleUrl: './invoice-details.css',
 })
 export class InvoiceDetails {
   private invoiceService = inject(Invoice);
