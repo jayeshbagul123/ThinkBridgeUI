@@ -18,11 +18,11 @@
     </form>
 
     @if (requestedInvoiceId() === undefined) {
-      <p class="mt-3">Enter an invoice ID to view its details.</p>
+      <p class="mt-3">Enter a invoice ID</p>
     } @else if (isLoading()) {
-      <p class="mt-3" role="status">Loading invoice details…</p>
+      <p class="mt-3" role="status">Loading…</p>
     } @else if (isError()) {
-      <p class="mt-3 text-danger" role="alert">Failed to load invoice details.</p>
+      <p class="mt-3 text-danger" role="alert">Failed to load invoice..</p>
     } @else if (value(); as details) {
       <table class="table table-bordered mt-3">
         <tbody>
@@ -63,7 +63,7 @@
           </tbody>
         </table>
       } @else {
-        <p class="mt-3">There are no items on this invoice.</p>
+        <p class="mt-3">Data Not Found.</p>
       }
     } @else {
       <p class="mt-3">Invoice data not available.</p>
